@@ -1,0 +1,1 @@
+[Макет](https://www.figma.com/design/icihipoo7gFUqkEKzJY00O/React-Hotdog?node-id=0-1&t=7EtTrCjVTbAXQvLv-1)
