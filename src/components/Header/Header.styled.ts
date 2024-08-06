@@ -34,4 +34,5 @@ export const SecondaryText = styled.div`
 export const ButtonsWrapper = styled.div`
   display: flex;
   gap: 16px;
+  align-items: center;
 `;
