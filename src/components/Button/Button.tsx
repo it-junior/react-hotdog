@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, ReactElement } from 'react';
+import { CSSProperties, FC, PropsWithChildren, ReactElement } from 'react';
 
 import { Wrapper } from './Button.styled';
 
@@ -8,11 +8,12 @@ interface Props {
   icon?: ReactElement;
   onClick?: () => void;
   type?: ButtonType;
+  width?: CSSProperties['width'];
 }
 
-export const Button: FC<PropsWithChildren<Props>> = ({ children, icon, type = 'default', onClick }) => {
+export const Button: FC<PropsWithChildren<Props>> = ({ children, icon, type = 'default', onClick, width }) => {
   return (
-    <Wrapper type={type} hasChildren={!!children} onClick={onClick}>
+    <Wrapper type={type} hasChildren={!!children} width={width} onClick={onClick}>
       {icon}
       {children && <div>{children}</div>}
     </Wrapper>

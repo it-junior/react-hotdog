@@ -4,7 +4,6 @@ import { FC } from 'react';
 import { ButtonsWrapper, LogoWrapper, SecondaryText, Title, TitleWrapper, Wrapper } from './Header.styled';
 import { LogoIcon } from './LogoIcon';
 import { Button } from '../Button/Button';
-import { Input } from '../Input/Input';
 
 export const Header: FC = () => {
   return (
