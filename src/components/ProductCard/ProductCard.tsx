@@ -11,24 +11,29 @@ import {
   Title,
   Wrapper,
 } from './ProductCard.styled';
+import { ProductM } from '../../api/types';
 import { Button } from '../Button/Button';
 
-interface Props {}
+interface Props {
+  item: ProductM;
+}
 
-export const ProductCard: FC<Props> = () => {
+export const ProductCard: FC<Props> = ({ item }) => {
+  const { caption, img, price } = item;
+
   return (
     <Wrapper>
       <ImgWrapper>
-        <Img src={`${process.env.PUBLIC_URL}/img/product-1.png`} alt="текст" />
+        <Img src={`${process.env.PUBLIC_URL}/img/${img}`} alt="текст" />
         <LikeButtonWrapper>
           <Button type="backless" icon={<HeartIcon16Light />} width="32px" />
         </LikeButtonWrapper>
       </ImgWrapper>
       <ContentWrapper>
-        <Title>Обычная Обычная Обычная Обычная Обычная</Title>
+        <Title>{caption}</Title>
         <div>
           <PriceTitle>Цена</PriceTitle>
-          <Price>600 руб.</Price>
+          <Price>{price} руб.</Price>
         </div>
       </ContentWrapper>
       <Button type="backless" width="100%">
