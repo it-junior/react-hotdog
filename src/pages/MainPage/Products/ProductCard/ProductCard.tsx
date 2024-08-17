@@ -11,8 +11,8 @@ import {
   Title,
   Wrapper,
 } from './ProductCard.styled';
-import { ProductM } from '../../api/types';
-import { Button } from '../Button/Button';
+import { ProductM } from '../../../../api/types';
+import { Button } from '../../../../components/Button/Button';
 
 interface Props {
   item: ProductM;

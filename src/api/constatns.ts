@@ -72,14 +72,14 @@ export const PRODUCT_GROUP_LIST: ProductGroupM[] = [
         price: 30,
       },
       {
-        id: 'p-9',
-        img: 'product-9.png',
+        id: 'p-10',
+        img: 'product-10.png',
         caption: 'Сырный',
         price: 30,
       },
       {
-        id: 'p-10',
-        img: 'product-10.png',
+        id: 'p-11',
+        img: 'product-11.png',
         caption: 'Барбекю',
         price: 30,
       },
