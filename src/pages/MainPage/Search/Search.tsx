@@ -12,8 +12,8 @@ interface Props {
 export const Search: FC<Props> = ({ count, query, onChangeQuery }) => {
   return (
     <Wrapper>
-      <CountWrapper>{count && query && `Найдено товаров: ${count}`}</CountWrapper>
-      <Input value={query} onChange={onChangeQuery} />
+      <CountWrapper>{query && `Найдено товаров: ${count}`}</CountWrapper>
+      <Input hasSearchIcon value={query} placeholder="Начните вводить" onChange={onChangeQuery} />
     </Wrapper>
   );
 };

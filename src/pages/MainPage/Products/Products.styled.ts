@@ -4,6 +4,7 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
+  width: 100%;
 `;
 
 export const Group = styled.div`

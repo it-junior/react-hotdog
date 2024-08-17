@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.body`
+export const Wrapper = styled.div`
+  padding-top: 160px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  padding: 32px 0;
   align-items: center;
-  width: 100%;
+  gap: 8px;
+  text-align: center;
+  width: 238px;
 `;

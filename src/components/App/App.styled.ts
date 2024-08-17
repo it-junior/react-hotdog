@@ -157,6 +157,12 @@ export const GlobalStyle = createGlobalStyle`
       cursor: pointer;
     }
   }
+  
+  input {
+    font-size: ${p => p.theme.fontSize.default};
+    line-height: ${p => p.theme.lineHeight.default};
+    color: ${p => p.theme.colors.text};
+  }
 
   /* Embedded content
      ========================================================================== */

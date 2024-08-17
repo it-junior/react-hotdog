@@ -2,8 +2,8 @@ import { HeartIcon20Light, MarketShoppingBasketIcon20Light, TimeClockMoveBackIco
 import { FC } from 'react';
 
 import { ButtonsWrapper, LogoWrapper, SecondaryText, Title, TitleWrapper, Wrapper } from './Header.styled';
-import { LogoIcon } from './LogoIcon';
 import { Button } from '../Button/Button';
+import { LogoIcon } from '../LogoIcon/LogoIcon';
 
 export const Header: FC = () => {
   return (

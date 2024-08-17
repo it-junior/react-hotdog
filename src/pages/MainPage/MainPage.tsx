@@ -5,6 +5,7 @@ import { Products } from './Products/Products';
 import { Search } from './Search/Search';
 import { api } from '../../api/api';
 import { ProductGroupM } from '../../api/types';
+import { Empty } from '../../components/Empty/Empty';
 import { Loader } from '../../components/Loader/Loader';
 
 export const MainPage: FC = () => {
@@ -40,7 +41,13 @@ export const MainPage: FC = () => {
   return (
     <Wrapper>
       <Search query={query} count={searchCount} onChangeQuery={setQuery} />
-      <Products groupItems={filteredProductGroups} />
+      {renderProducts()}
     </Wrapper>
   );
+
+  function renderProducts() {
+    if (searchCount) return <Products groupItems={filteredProductGroups} />;
+
+    return <Empty />;
+  }
 };
