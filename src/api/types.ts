@@ -12,6 +12,7 @@ export interface ProductGroupM {
 }
 
 export interface ProductsInfoM {
+  cartProducts: ProductM[];
   groups: ProductGroupM[];
   likedProducts: ProductM[];
 }

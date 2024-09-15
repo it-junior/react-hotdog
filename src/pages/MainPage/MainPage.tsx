@@ -3,6 +3,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Wrapper } from './MainPage.stlyed';
 import { Products } from './Products/Products';
 import { Search } from './Search/Search';
+import { TotalPanel } from './TotalPanel/TotalPanel';
 import { api } from '../../api/api';
 import { ProductsInfoM } from '../../api/types';
 import { Empty } from '../../components/Empty/Empty';
@@ -27,7 +28,7 @@ export const MainPage: FC = () => {
 
   if (!productsInfo) return <Loader />;
 
-  const { groups, likedProducts } = productsInfo;
+  const { groups, likedProducts, cartProducts } = productsInfo;
 
   const filteredProductGroups = groups.map(group => {
     return {
@@ -41,26 +42,42 @@ export const MainPage: FC = () => {
     <Wrapper>
       <Search query={query} count={searchCount} onChangeQuery={setQuery} />
       {renderProducts()}
+      {renderTotalPanel()}
     </Wrapper>
   );
 
   function renderProducts() {
-    if (searchCount)
+    if (searchCount && productsInfo)
       return (
         <Products
           groupItems={filteredProductGroups}
           likedProducts={likedProducts}
+          cartProducts={cartProducts}
           onChangeLikedProduct={(item, isLiked) =>
             setProductsInfo({
-              groups,
+              ...productsInfo,
               likedProducts: isLiked
                 ? likedProducts.filter(likedProduct => likedProduct.id !== item.id)
                 : [...likedProducts, item],
+            })
+          }
+          onChangeCartProduct={(item, inCart) =>
+            setProductsInfo({
+              ...productsInfo,
+              cartProducts: inCart
+                ? cartProducts.filter(cartProduct => cartProduct.id !== item.id)
+                : [...cartProducts, item],
             })
           }
         />
       );
 
     return <Empty />;
+  }
+
+  function renderTotalPanel() {
+    if (!cartProducts.length) return null;
+
+    return <TotalPanel cartProducts={cartProducts} />;
   }
 };

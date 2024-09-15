@@ -17,12 +17,14 @@ import { ProductM } from '../../../../api/types';
 import { Button } from '../../../../components/Button/Button';
 
 interface Props {
+  inCart: boolean;
   isLiked: boolean;
   item: ProductM;
-  onChangeLikedProduct: (item: ProductM, isLiked: boolean) => void;
+  onClickLike: () => void;
+  onClickSetToCart: () => void;
 }
 
-export const ProductCard: FC<Props> = ({ item, isLiked, onChangeLikedProduct }) => {
+export const ProductCard: FC<Props> = ({ item, isLiked, inCart, onClickLike, onClickSetToCart }) => {
   const { colors } = useTheme();
 
   const { caption, img, price } = item;
@@ -48,16 +50,25 @@ export const ProductCard: FC<Props> = ({ item, isLiked, onChangeLikedProduct }) 
           <Price>{price} руб.</Price>
         </div>
       </ContentWrapper>
-      <Button type="backless" width="100%">
-        Выбрать
+      <Button type={inCart ? 'default' : 'backless'} width="100%" onClick={handleSetToCart}>
+        {inCart ? 'Убрать' : 'Выбрать'}
       </Button>
     </Wrapper>
   );
 
   async function handleLike() {
     try {
-      onChangeLikedProduct(item, isLiked);
+      onClickLike();
       await api.toggleLike(item);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function handleSetToCart() {
+    try {
+      onClickSetToCart();
+      await api.setToCart(item);
     } catch (e) {
       console.log(e);
     }
