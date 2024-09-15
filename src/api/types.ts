@@ -10,3 +10,8 @@ export interface ProductGroupM {
   id: string;
   items: ProductM[];
 }
+
+export interface ProductsInfoM {
+  groups: ProductGroupM[];
+  likedProducts: ProductM[];
+}

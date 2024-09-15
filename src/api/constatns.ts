@@ -1,5 +1,7 @@
 import { ProductGroupM } from './types';
 
+export const LIKED_PRODUCTS_KEY = 'likedProducts';
+
 export const PRODUCT_GROUP_LIST: ProductGroupM[] = [
   {
     id: 'g-1',

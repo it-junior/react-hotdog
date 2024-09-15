@@ -4,30 +4,19 @@ import { Wrapper } from './MainPage.stlyed';
 import { Products } from './Products/Products';
 import { Search } from './Search/Search';
 import { api } from '../../api/api';
-import { ProductGroupM } from '../../api/types';
+import { ProductsInfoM } from '../../api/types';
 import { Empty } from '../../components/Empty/Empty';
 import { Loader } from '../../components/Loader/Loader';
 
 export const MainPage: FC = () => {
-  const [productGroups, setProductGroups] = useState<ProductGroupM[]>([]);
+  const [productsInfo, setProductsInfo] = useState<ProductsInfoM>();
   const [query, setQuery] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const filteredProductGroups = productGroups.map(group => {
-    return {
-      ...group,
-      items: group.items.filter(({ caption }) => caption.toLowerCase().includes(query.toLowerCase())),
-    };
-  });
-  const searchCount = filteredProductGroups.reduce((acc, group) => acc + group.items.length, 0);
 
   useEffect(() => {
     const load = async () => {
       try {
-        setIsLoading(true);
-        const data = await api.getProducts();
-        setProductGroups(data);
-        setIsLoading(false);
+        const data = await api.getProductsInfo();
+        setProductsInfo(data);
       } catch (e) {
         console.log(e);
       }
@@ -36,7 +25,17 @@ export const MainPage: FC = () => {
     void load();
   }, []);
 
-  if (isLoading) return <Loader />;
+  if (!productsInfo) return <Loader />;
+
+  const { groups, likedProducts } = productsInfo;
+
+  const filteredProductGroups = groups.map(group => {
+    return {
+      ...group,
+      items: group.items.filter(({ caption }) => caption.toLowerCase().includes(query.toLowerCase())),
+    };
+  });
+  const searchCount = filteredProductGroups.reduce((acc, group) => acc + group.items.length, 0);
 
   return (
     <Wrapper>
@@ -46,7 +45,21 @@ export const MainPage: FC = () => {
   );
 
   function renderProducts() {
-    if (searchCount) return <Products groupItems={filteredProductGroups} />;
+    if (searchCount)
+      return (
+        <Products
+          groupItems={filteredProductGroups}
+          likedProducts={likedProducts}
+          onChangeLikedProduct={(item, isLiked) =>
+            setProductsInfo({
+              groups,
+              likedProducts: isLiked
+                ? likedProducts.filter(likedProduct => likedProduct.id !== item.id)
+                : [...likedProducts, item],
+            })
+          }
+        />
+      );
 
     return <Empty />;
   }

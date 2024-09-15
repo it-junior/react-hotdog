@@ -1,5 +1,6 @@
-import { HeartIcon16Light } from '@skbkontur/icons';
+import { HeartIcon16Light, HeartIcon16Solid } from '@skbkontur/icons';
 import { FC } from 'react';
+import { useTheme } from 'styled-components';
 
 import {
   ContentWrapper,
@@ -11,14 +12,19 @@ import {
   Title,
   Wrapper,
 } from './ProductCard.styled';
+import { api } from '../../../../api/api';
 import { ProductM } from '../../../../api/types';
 import { Button } from '../../../../components/Button/Button';
 
 interface Props {
+  isLiked: boolean;
   item: ProductM;
+  onChangeLikedProduct: (item: ProductM, isLiked: boolean) => void;
 }
 
-export const ProductCard: FC<Props> = ({ item }) => {
+export const ProductCard: FC<Props> = ({ item, isLiked, onChangeLikedProduct }) => {
+  const { colors } = useTheme();
+
   const { caption, img, price } = item;
 
   return (
@@ -26,7 +32,13 @@ export const ProductCard: FC<Props> = ({ item }) => {
       <ImgWrapper>
         <Img src={`${process.env.PUBLIC_URL}/img/${img}`} alt="текст" />
         <LikeButtonWrapper>
-          <Button type="backless" icon={<HeartIcon16Light />} width="32px" />
+          <Button
+            type="backless"
+            icon={isLiked ? <HeartIcon16Solid /> : <HeartIcon16Light />}
+            width="32px"
+            color={isLiked ? colors.red : undefined}
+            onClick={handleLike}
+          />
         </LikeButtonWrapper>
       </ImgWrapper>
       <ContentWrapper>
@@ -41,4 +53,13 @@ export const ProductCard: FC<Props> = ({ item }) => {
       </Button>
     </Wrapper>
   );
+
+  async function handleLike() {
+    try {
+      onChangeLikedProduct(item, isLiked);
+      await api.toggleLike(item);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 };
