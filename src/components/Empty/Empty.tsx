@@ -1,16 +1,18 @@
-import { FC } from 'react';
+import { FC, PropsWithChildren, ReactElement } from 'react';
 
 import { Wrapper } from './Empty.styled';
 import { LogoIcon } from '../LogoIcon/LogoIcon';
 
-export const Empty: FC = () => {
+interface Props {
+  subCaption?: ReactElement;
+}
+
+export const Empty: FC<PropsWithChildren<Props>> = ({ children, subCaption }) => {
   return (
     <Wrapper>
       <LogoIcon />
-      <div>
-        Ничего не найдено
-        <br /> Измените или сбросьте поиск
-      </div>
+      <div>{children}</div>
+      {subCaption}
     </Wrapper>
   );
 };

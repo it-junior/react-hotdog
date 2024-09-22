@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import { Wrapper } from './MainPage.stlyed';
 import { Products } from './Products/Products';
 import { Search } from './Search/Search';
 import { TotalPanel } from './TotalPanel/TotalPanel';
 import { api } from '../../api/api';
 import { ProductsInfoM } from '../../api/types';
+import { PageWrapper } from '../../components/App/App.styled';
 import { Empty } from '../../components/Empty/Empty';
 import { Loader } from '../../components/Loader/Loader';
 
@@ -39,11 +39,11 @@ export const MainPage: FC = () => {
   const searchCount = filteredProductGroups.reduce((acc, group) => acc + group.items.length, 0);
 
   return (
-    <Wrapper>
+    <PageWrapper>
       <Search query={query} count={searchCount} onChangeQuery={setQuery} />
       {renderProducts()}
       {renderTotalPanel()}
-    </Wrapper>
+    </PageWrapper>
   );
 
   function renderProducts() {
@@ -72,7 +72,12 @@ export const MainPage: FC = () => {
         />
       );
 
-    return <Empty />;
+    return (
+      <Empty>
+        Ничего не найдено
+        <br /> Измените или сбросьте поиск
+      </Empty>
+    );
   }
 
   function renderTotalPanel() {

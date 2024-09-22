@@ -40,7 +40,7 @@ export const PRODUCT_GROUP_LIST: ProductGroupM[] = [
     items: [
       {
         id: 'p-5',
-        img: 'product-6.png',
+        img: 'product-5.png',
         caption: 'Куриная',
         price: 80,
       },

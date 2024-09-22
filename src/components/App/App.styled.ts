@@ -5,6 +5,15 @@ export const Wrapper = styled.div`
   margin: 0 auto;
 `;
 
+export const PageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 32px 0 120px;
+  align-items: center;
+  width: 100%;
+`;
+
 export const GlobalStyle = createGlobalStyle`
   @font-face { font-family: Inter; font-style: normal; font-weight: 100; font-display: swap; src: url("./fonts/Inter-Thin.woff2") format("woff2"); }
   
