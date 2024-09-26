@@ -1,51 +1,89 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Column, Content, Field } from './OrderFormPage.styled';
+import { api } from '../../api/api';
+import { SaveOrderM } from '../../api/types';
 import { PageWrapper } from '../../components/App/App.styled';
 import { RoutesConstants } from '../../components/App/routes';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
+import { Loader } from '../../components/Loader/Loader';
 import { Panel } from '../../components/Panel/Panel';
 
 export const OrderFormPage: FC = () => {
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [fields, setFields] = useState<Omit<SaveOrderM, 'date'>>({
+    name: '',
+    phone: '',
+    email: '',
+    home: '',
+    city: '',
+    street: '',
+  });
+
+  const { name, email, phone, city, street, home } = fields;
+
   return (
     <PageWrapper>
+      {renderContent()}
+      <Panel>
+        <Button onClick={handleSubmit}>Оформить заказ</Button>
+      </Panel>
+    </PageWrapper>
+  );
+
+  function renderContent() {
+    if (isLoading) return <Loader />;
+
+    return (
       <Content>
         <Column>
           <Field>
             <div>Имя</div>
-            <Input placeholder="Введите имя" />
+            <Input value={name} placeholder="Введите имя" onChange={value => handleChange({ name: value })} />
           </Field>
           <Field>
             <div>Email</div>
-            <Input placeholder="Введите email" />
+            <Input value={email} placeholder="Введите email" onChange={value => handleChange({ email: value })} />
           </Field>
           <Field>
             <div>Телефон</div>
-            <Input placeholder="Введите телефон" />
+            <Input value={phone} placeholder="Введите телефон" onChange={value => handleChange({ phone: value })} />
           </Field>
         </Column>
         <Column>
           <Field right>
             <div>Город</div>
-            <Input placeholder="Введите город" />
+            <Input value={city} placeholder="Введите город" onChange={value => handleChange({ city: value })} />
           </Field>
           <Field right>
             <div>Улица</div>
-            <Input placeholder="Введите улицу" />
+            <Input value={street} placeholder="Введите улицу" onChange={value => handleChange({ street: value })} />
           </Field>
           <Field right>
             <div>Дом</div>
-            <Input placeholder="Введите дом" />
+            <Input value={home} placeholder="Введите дом" onChange={value => handleChange({ home: value })} />
           </Field>
         </Column>
       </Content>
-      <Panel>
-        <Button onClick={() => navigate(`${RoutesConstants.Order}/0010`)}>Оформить заказ</Button>
-      </Panel>
-    </PageWrapper>
-  );
+    );
+  }
+
+  function handleChange(value: Partial<SaveOrderM>) {
+    setFields(prevState => ({ ...prevState, ...value }));
+  }
+
+  async function handleSubmit() {
+    try {
+      setIsLoading(true);
+      const { id } = await api.order({ ...fields, date: new Date(), phone: '+79999999999' });
+
+      navigate(`${RoutesConstants.Order}/${id}`, { replace: true });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 };

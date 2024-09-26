@@ -16,3 +16,25 @@ export interface ProductsInfoM {
   groups: ProductGroupM[];
   likedProducts: ProductM[];
 }
+
+export interface OrderM {
+  city: string;
+  date: string | Date;
+  email: string;
+  home: string;
+  id: string;
+  name: string;
+  phone: string;
+  products: ProductM[];
+  street: string;
+}
+
+export interface SaveOrderM {
+  city: string;
+  date: string | Date;
+  email: string;
+  home: string;
+  name: string;
+  phone: string;
+  street: string;
+}
