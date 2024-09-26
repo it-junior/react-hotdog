@@ -11,10 +11,13 @@ import { Input } from '../../components/Input/Input';
 import { Loader } from '../../components/Loader/Loader';
 import { Panel } from '../../components/Panel/Panel';
 
+const VALIDATION_TEXT = 'Заполните это поле';
+
 export const OrderFormPage: FC = () => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showValidation, setShowValidation] = useState<boolean>(false);
   const [fields, setFields] = useState<Omit<SaveOrderM, 'date'>>({
     name: '',
     phone: '',
@@ -43,7 +46,12 @@ export const OrderFormPage: FC = () => {
         <Column>
           <Field>
             <div>Имя</div>
-            <Input value={name} placeholder="Введите имя" onChange={value => handleChange({ name: value })} />
+            <Input
+              validationText={showValidation && !name ? VALIDATION_TEXT : undefined}
+              value={name}
+              placeholder="Введите имя"
+              onChange={value => handleChange({ name: value })}
+            />
           </Field>
           <Field>
             <div>Email</div>
@@ -51,7 +59,12 @@ export const OrderFormPage: FC = () => {
           </Field>
           <Field>
             <div>Телефон</div>
-            <Input value={phone} placeholder="Введите телефон" onChange={value => handleChange({ phone: value })} />
+            <Input
+              validationText={showValidation && !phone ? VALIDATION_TEXT : undefined}
+              value={phone}
+              placeholder="Введите телефон"
+              onChange={value => handleChange({ phone: value })}
+            />
           </Field>
         </Column>
         <Column>
@@ -73,10 +86,17 @@ export const OrderFormPage: FC = () => {
   }
 
   function handleChange(value: Partial<SaveOrderM>) {
+    setShowValidation(false);
     setFields(prevState => ({ ...prevState, ...value }));
   }
 
   async function handleSubmit() {
+    if (!name || !phone) {
+      setShowValidation(true);
+
+      return;
+    }
+
     try {
       setIsLoading(true);
       const { id } = await api.order({ ...fields, date: new Date(), phone: '+79999999999' });

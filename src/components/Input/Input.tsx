@@ -2,22 +2,24 @@ import { SearchLoupeIcon20Regular, XIcon20Light } from '@skbkontur/icons';
 import { ChangeEvent, FC } from 'react';
 import { useTheme } from 'styled-components';
 
-import { ControlWrapper, IconWrapper, Wrapper } from './Input.styled';
+import { ControlWrapper, IconWrapper, ValidationWrapper, Wrapper } from './Input.styled';
 
 interface Props {
   hasSearchIcon?: boolean;
   onChange?: (value: string) => void;
   placeholder?: string;
+  validationText?: string;
   value?: string;
 }
 
-export const Input: FC<Props> = ({ value, onChange, placeholder, hasSearchIcon }) => {
+export const Input: FC<Props> = ({ value, onChange, placeholder, hasSearchIcon, validationText }) => {
   const { colors } = useTheme();
 
   return (
     <Wrapper>
-      <ControlWrapper value={value} placeholder={placeholder} onChange={handleChange} />
+      <ControlWrapper isValid={!validationText} value={value} placeholder={placeholder} onChange={handleChange} />
       <IconWrapper>{renderIcon()}</IconWrapper>
+      {!!validationText && <ValidationWrapper>{validationText}</ValidationWrapper>}
     </Wrapper>
   );
 
