@@ -18,6 +18,7 @@ export const App = () => {
           <Route path="/" element={<MainPage />} />
           <Route path={RoutesConstants.OrderForm} element={<OrderFormPage />} />
           <Route path={`${RoutesConstants.Order}/:id`} element={<OrderPage />} />
+          <Route path="*/orders" element={<div>заказ</div>} />
           <Route path="*" element={<div>Страница не найдена</div>} />
         </Route>
       </Routes>
